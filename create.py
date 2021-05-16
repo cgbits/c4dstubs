@@ -90,6 +90,7 @@ class FunctionDef:
         name: str,
         arguments: Optional[List[ArgumentDef]] = None,
         return_type: Optional[HintDef] = None,
+        comment: Optional[str] = None,
     ):
         if arguments is None:
             arguments = []
@@ -97,6 +98,7 @@ class FunctionDef:
         self.name = name
         self.arguments = arguments
         self.return_type = return_type
+        self.comment = comment
 
     def render(self) -> str:
         result = "def " + self.name
@@ -113,6 +115,12 @@ class FunctionDef:
             return_type = "None"
 
         result += ") -> " + return_type + ":\n"
+
+        if self.comment:
+            comment = self.comment.replace("\\", "\\\\")
+            result += " " * 4 + '"""' + "\n"
+            result += "\n".join([" " * 4 + x for x in comment.split("\n")])
+            result += "\n" + " " * 4 + '"""' + "\n"
 
         result += " " * 4 + "...\n"
 
@@ -314,6 +322,7 @@ def parse_type(type_string: str) -> Tuple[Optional[str], HintDef]:
 def prepare_function(node: ast.FunctionDef) -> FunctionDef:
     arguments: List[ArgumentDef] = [ArgumentDef(x.arg) for x in node.args.args]
     argument_names: List[str] = [x.name for x in arguments]
+    comment: Optional[str] = None
 
     return_type = HintDef("None")
 
@@ -340,7 +349,15 @@ def prepare_function(node: ast.FunctionDef) -> FunctionDef:
                     except Exception:
                         pass
 
-    function_definition = FunctionDef(node.name, arguments, return_type)
+                comment = "\n".join(
+                    filter(bool, [x.strip() for x in comment_lines])
+                )
+
+                break
+
+    function_definition = FunctionDef(
+        node.name, arguments, return_type, comment
+    )
 
     return function_definition
 
