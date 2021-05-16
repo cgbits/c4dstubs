@@ -272,7 +272,7 @@ def parse_hint(hint: str) -> HintDef:
             hint = "Any"
 
         if hint == "number":
-            hint = "int"
+            hint = "float"
 
         if hint == "long":
             hint = "int"
@@ -701,7 +701,12 @@ if __name__ == "__main__":
                     [
                         ArgumentDef("self"),
                         ArgumentDef("t_id", HintDef("int")),
-                        ArgumentDef("t_datatype", HintDef("int")),
+                        ArgumentDef(
+                            "t_datatype",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
                         ArgumentDef(
                             "t_creator",
                             HintDef("Optional", [HintDef("int")]),
@@ -802,6 +807,64 @@ if __name__ == "__main__":
                 )
             ],
         ),
+        ClassDef(
+            "TagData",
+            functions=[
+                FunctionDef(
+                    "Message",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("node", HintDef("BaseTag")),
+                        ArgumentDef("type", HintDef("int")),
+                        ArgumentDef("data", HintDef("Any")),
+                    ],
+                    HintDef("bool"),
+                )
+            ],
+        ),
+        ClassDef(
+            "BaseDraw",
+            functions=[
+                FunctionDef(
+                    "SetPen",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("col", HintDef("Vector")),
+                        ArgumentDef(
+                            "flags",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                )
+            ],
+        ),
+        ClassDef(
+            "BaseBitmap",
+            functions=[
+                FunctionDef(
+                    "InitWith",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "name",
+                            HintDef(
+                                "Union",
+                                [HintDef("str"), HintDef("MemoryFileStruct")],
+                            ),
+                        ),
+                        ArgumentDef(
+                            "frame",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                    HintDef("Tuple", [HintDef("int"), HintDef("bool")]),
+                )
+            ],
+        ),
     ]
 
     class_overrides_names: List[str] = [x.name for x in class_overrides]
@@ -824,7 +887,36 @@ if __name__ == "__main__":
                     "...",
                 ),
             ],
-        )
+        ),
+        FunctionDef(
+            "RegisterTagPlugin",
+            [
+                ArgumentDef("id", HintDef("int")),
+                ArgumentDef("str", HintDef("str")),
+                ArgumentDef("info", HintDef("int")),
+                ArgumentDef("g", HintDef("Any")),
+                ArgumentDef("description", HintDef("str")),
+                ArgumentDef(
+                    "icon",
+                    HintDef("Optional", [HintDef("BaseBitmap")]),
+                    True,
+                    "...",
+                ),
+                ArgumentDef(
+                    "disklevel",
+                    HintDef("Optional", [HintDef("int")]),
+                    True,
+                    "...",
+                ),
+                ArgumentDef(
+                    "res",
+                    HintDef("Optional", [HintDef("GeResource")]),
+                    True,
+                    "...",
+                ),
+            ],
+            HintDef("bool"),
+        ),
     ]
 
     function_override_names: List[str] = [x.name for x in function_overrides]
