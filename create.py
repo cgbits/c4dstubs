@@ -449,6 +449,23 @@ if __name__ == "__main__":
 
     modules: Dict[str, Any] = {}
 
+    class_overrides: Dict[str, List[FunctionDef]] = {
+        "GeListNode": [
+            FunctionDef(
+                "GetChildren",
+                [ArgumentDef("self")],
+                HintDef("List", [HintDef("GeListNode")]),
+            )
+        ],
+        "BaseObject": [
+            FunctionDef(
+                "GetChildren",
+                [ArgumentDef("self")],
+                HintDef("List", [HintDef("BaseObject")]),
+            )
+        ],
+    }
+
     for root, _, filenames in os.walk(package_directory):
         root_path = Path(root)
 
@@ -588,8 +605,37 @@ if __name__ == "__main__":
             # write classes
             if class_definitions:
                 for class_definition in class_definitions:
-                    f.write("\n\n")
-                    f.write(class_definition.render())
+                    if class_definition.name in class_overrides:
+                        override_functions = class_overrides[
+                            class_definition.name
+                        ]
+
+                        override_function_names = [
+                            x.name for x in override_functions
+                        ]
+
+                        overridden_functions = override_functions[::]
+
+                        if class_definition.functions:
+                            for x in class_definition.functions:
+                                if x.name not in override_function_names:
+                                    overridden_functions.append(x)
+                                else:
+                                    overridden_functions[
+                                        override_function_names.index(x.name)
+                                    ].comment = x.comment
+
+                        test = ClassDef(
+                            class_definition.name,
+                            class_definition.bases,
+                            overridden_functions,
+                        )
+
+                        f.write("\n\n")
+                        f.write(test.render())
+                    else:
+                        f.write("\n\n")
+                        f.write(class_definition.render())
 
             # write functions
             if function_definitions:
