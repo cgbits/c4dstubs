@@ -145,10 +145,12 @@ class ClassDef:
         name: str,
         bases: Optional[List[str]] = None,
         functions: Optional[List[FunctionDef]] = None,
+        attributes: Optional[List[ArgumentDef]] = None,
     ) -> None:
         self.name = name
         self.bases = bases
         self.functions = functions
+        self.attributes = attributes
 
     def render(self) -> str:
         result = "class " + self.name
@@ -161,6 +163,10 @@ class ClassDef:
             result += ")"
 
         result += ":\n"
+
+        if self.attributes:
+            for attribute in self.attributes:
+                result += " " * 4 + attribute.render() + "\n"
 
         if self.functions:
             result += "\n"
@@ -177,7 +183,8 @@ class ClassDef:
                 )
 
                 result += "\n"
-        else:
+
+        if not self.attributes and not self.functions:
             result += " " * 4 + "...\n"
 
         return result
@@ -449,178 +456,355 @@ if __name__ == "__main__":
 
     modules: Dict[str, Any] = {}
 
-    class_overrides: Dict[str, List[FunctionDef]] = {
-        "Vector": [
-            FunctionDef(
-                "__init__",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef(
-                        "x",
-                        HintDef(
-                            "Union",
-                            [
-                                HintDef("int"),
-                                HintDef("Vector"),
-                                HintDef("float"),
-                            ],
+    class_overrides: List[ClassDef] = [
+        ClassDef(
+            "Matrix",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "off",
+                            HintDef("Optional", [HintDef("Vector")]),
+                            True,
+                            "...",
                         ),
-                    ),
-                    ArgumentDef(
-                        "y",
-                        HintDef(
-                            "Optional",
-                            [
-                                HintDef(
-                                    "Union", [HintDef("int"), HintDef("float")]
-                                )
-                            ],
+                        ArgumentDef(
+                            "v1",
+                            HintDef("Optional", [HintDef("Vector")]),
+                            True,
+                            "...",
                         ),
-                        True,
-                        "...",
-                    ),
-                    ArgumentDef(
-                        "z",
-                        HintDef(
-                            "Optional",
-                            [
-                                HintDef(
-                                    "Union", [HintDef("int"), HintDef("float")]
-                                )
-                            ],
+                        ArgumentDef(
+                            "v2",
+                            HintDef("Optional", [HintDef("Vector")]),
+                            True,
+                            "...",
                         ),
-                        True,
-                        "...",
-                    ),
-                ],
-            )
-        ],
-        "BaseContainer": [
-            FunctionDef(
-                "__init__",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef(
-                        "n",
-                        HintDef(
-                            "Optional",
-                            [
-                                HintDef(
-                                    "Union",
-                                    [
-                                        HintDef("BaseContainer"),
-                                        HintDef("int"),
-                                    ],
-                                )
-                            ],
+                        ArgumentDef(
+                            "v3",
+                            HintDef("Optional", [HintDef("Vector")]),
+                            True,
+                            "...",
                         ),
-                        True,
-                        "...",
-                    ),
-                ],
-            )
-        ],
-        "DescID": [
-            FunctionDef(
-                "__init__",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef("id1", HintDef("DescLevel")),
-                    ArgumentDef(
-                        "id2",
-                        HintDef("Optional", [HintDef("DescLevel")]),
-                        True,
-                        "...",
-                    ),
-                    ArgumentDef(
-                        "id3",
-                        HintDef("Optional", [HintDef("DescLevel")]),
-                        True,
-                        "...",
-                    ),
-                ],
-            )
-        ],
-        "DescLevel": [
-            FunctionDef(
-                "__init__",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef("t_id", HintDef("int")),
-                    ArgumentDef("t_datatype", HintDef("int")),
-                    ArgumentDef(
-                        "t_creator",
-                        HintDef("Optional", [HintDef("int")]),
-                        True,
-                        "...",
-                    ),
-                ],
-            )
-        ],
-        "GeListNode": [
-            FunctionDef(
-                "GetChildren",
-                [ArgumentDef("self")],
-                HintDef("List", [HintDef("GeListNode")]),
-            ),
-            FunctionDef(
-                "GetDataInstance",
-                [ArgumentDef("self")],
-                HintDef("BaseContainer"),
-            ),
-        ],
-        "BaseList2D": [
-            FunctionDef(
-                "GetChildren",
-                [ArgumentDef("self")],
-                HintDef("List", [HintDef("BaseList2D")]),
-            ),
-            FunctionDef(
-                "SetLayerObject",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef(
-                        "layer", HintDef("Optional", [HintDef("LayerObject")])
-                    ),
-                ],
-            ),
-        ],
-        "BaseObject": [
-            FunctionDef(
-                "GetChildren",
-                [ArgumentDef("self")],
-                HintDef("List", [HintDef("BaseObject")]),
-            ),
-            FunctionDef(
-                "MakeTag",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef("x", HintDef("int")),
-                    ArgumentDef(
-                        "pred",
-                        HintDef("Optional", [HintDef("BaseTag")]),
-                        True,
-                        "...",
-                    ),
-                ],
-                HintDef("BaseTag"),
-            ),
-        ],
-        "PriorityData": [
-            FunctionDef(
-                "__init__",
-                [
-                    ArgumentDef("self"),
-                    ArgumentDef(
-                        "v",
-                        HintDef("Optional", [HintDef("PriorityData")]),
-                        True,
-                        "...",
-                    ),
-                ],
-            )
-        ],
-    }
+                    ],
+                ),
+            ],
+            attributes=[
+                ArgumentDef("off", HintDef("Vector")),
+                ArgumentDef("v1", HintDef("Vector")),
+                ArgumentDef("v2", HintDef("Vector")),
+                ArgumentDef("v3", HintDef("Vector")),
+            ],
+        ),
+        ClassDef(
+            "Vector",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "x",
+                            HintDef(
+                                "Optional",
+                                [
+                                    HintDef(
+                                        "Union",
+                                        [
+                                            HintDef("int"),
+                                            HintDef("Vector"),
+                                            HintDef("float"),
+                                        ],
+                                    )
+                                ],
+                            ),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "y",
+                            HintDef(
+                                "Optional",
+                                [
+                                    HintDef(
+                                        "Union",
+                                        [HintDef("int"), HintDef("float")],
+                                    )
+                                ],
+                            ),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "z",
+                            HintDef(
+                                "Optional",
+                                [
+                                    HintDef(
+                                        "Union",
+                                        [HintDef("int"), HintDef("float")],
+                                    )
+                                ],
+                            ),
+                            True,
+                            "...",
+                        ),
+                    ],
+                ),
+                FunctionDef(
+                    "__mul__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "other",
+                            HintDef(
+                                "Union",
+                                [
+                                    HintDef("Matrix"),
+                                    HintDef("Vector"),
+                                    HintDef("float"),
+                                ],
+                            ),
+                        ),
+                    ],
+                    HintDef("Vector"),
+                ),
+            ],
+            attributes=[
+                ArgumentDef("x", HintDef("float")),
+                ArgumentDef("y", HintDef("float")),
+                ArgumentDef("z", HintDef("float")),
+            ],
+        ),
+        ClassDef(
+            "GvNode",
+            functions=[
+                FunctionDef(
+                    "AddPort",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("io", HintDef("int")),
+                        ArgumentDef(
+                            "id",
+                            HintDef(
+                                "Union", [HintDef("int"), HintDef("DescID")]
+                            ),
+                        ),
+                        ArgumentDef(
+                            "flag",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "message",
+                            HintDef("Optional", [HintDef("bool")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                    HintDef("GvPort"),
+                )
+            ],
+        ),
+        ClassDef(
+            "GvNodeMaster",
+            functions=[
+                FunctionDef(
+                    "CreateNode",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("parent", HintDef("GvNode")),
+                        ArgumentDef("id", HintDef("int")),
+                        ArgumentDef(
+                            "insert",
+                            HintDef("Optional", [HintDef("GvNode")]),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "x",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "y",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                    HintDef("GvNode"),
+                )
+            ],
+        ),
+        ClassDef(
+            "BaseContainer",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "n",
+                            HintDef(
+                                "Optional",
+                                [
+                                    HintDef(
+                                        "Union",
+                                        [
+                                            HintDef("BaseContainer"),
+                                            HintDef("int"),
+                                        ],
+                                    )
+                                ],
+                            ),
+                            True,
+                            "...",
+                        ),
+                    ],
+                )
+            ],
+        ),
+        ClassDef(
+            "DescID",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("id1", HintDef("DescLevel")),
+                        ArgumentDef(
+                            "id2",
+                            HintDef("Optional", [HintDef("DescLevel")]),
+                            True,
+                            "...",
+                        ),
+                        ArgumentDef(
+                            "id3",
+                            HintDef("Optional", [HintDef("DescLevel")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                )
+            ],
+        ),
+        ClassDef(
+            "DescLevel",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("t_id", HintDef("int")),
+                        ArgumentDef("t_datatype", HintDef("int")),
+                        ArgumentDef(
+                            "t_creator",
+                            HintDef("Optional", [HintDef("int")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                )
+            ],
+        ),
+        ClassDef(
+            "GeListNode",
+            functions=[
+                FunctionDef(
+                    "GetChildren",
+                    [ArgumentDef("self")],
+                    HintDef("List", [HintDef("GeListNode")]),
+                ),
+                FunctionDef(
+                    "GetDataInstance",
+                    [ArgumentDef("self")],
+                    HintDef("BaseContainer"),
+                ),
+            ],
+        ),
+        ClassDef(
+            "BaseList2D",
+            functions=[
+                FunctionDef(
+                    "GetChildren",
+                    [ArgumentDef("self")],
+                    HintDef("List", [HintDef("BaseList2D")]),
+                ),
+                FunctionDef(
+                    "SetLayerObject",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "layer",
+                            HintDef("Optional", [HintDef("LayerObject")]),
+                        ),
+                    ],
+                ),
+            ],
+        ),
+        ClassDef(
+            "BaseObject",
+            functions=[
+                FunctionDef(
+                    "GetChildren",
+                    [ArgumentDef("self")],
+                    HintDef("List", [HintDef("BaseObject")]),
+                ),
+                FunctionDef(
+                    "MakeTag",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("x", HintDef("int")),
+                        ArgumentDef(
+                            "pred",
+                            HintDef("Optional", [HintDef("BaseTag")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                    HintDef("BaseTag"),
+                ),
+                FunctionDef(
+                    "InsertTag",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef("tp", HintDef("BaseTag")),
+                        ArgumentDef(
+                            "pred",
+                            HintDef("Optional", [HintDef("BaseTag")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                    HintDef("BaseTag"),
+                ),
+            ],
+        ),
+        ClassDef(
+            "PriorityData",
+            functions=[
+                FunctionDef(
+                    "__init__",
+                    [
+                        ArgumentDef("self"),
+                        ArgumentDef(
+                            "v",
+                            HintDef("Optional", [HintDef("PriorityData")]),
+                            True,
+                            "...",
+                        ),
+                    ],
+                )
+            ],
+        ),
+    ]
+
+    class_overrides_names: List[str] = [x.name for x in class_overrides]
 
     function_overrides: List[FunctionDef] = [
         FunctionDef(
@@ -642,6 +826,8 @@ if __name__ == "__main__":
             ],
         )
     ]
+
+    function_override_names: List[str] = [x.name for x in function_overrides]
 
     for root, _, filenames in os.walk(package_directory):
         root_path = Path(root)
@@ -681,33 +867,88 @@ if __name__ == "__main__":
         class_definitions: List[ClassDef] = stubs["classes"]
         function_definitions: List[FunctionDef] = stubs["functions"]
 
+        # apply class overrides
+        for override_class_definition in class_definitions:
+            if override_class_definition.name in class_overrides_names:
+                class_override = class_overrides[
+                    class_overrides_names.index(override_class_definition.name)
+                ]
+
+                functions: List[FunctionDef] = []
+
+                if override_class_definition.functions:
+                    functions = override_class_definition.functions
+
+                if class_override.functions:
+                    for function in class_override.functions:
+                        function_names: List[str] = [x.name for x in functions]
+
+                        if function.name in function_names:
+                            # override
+                            index = function_names.index(function.name)
+                            original = functions[index]
+
+                            function.comment = original.comment
+
+                            functions[index] = function
+                        else:
+                            functions.append(function)
+
+                attributes: List[ArgumentDef] = []
+
+                if override_class_definition.attributes:
+                    attributes = override_class_definition.attributes
+
+                if class_override.attributes:
+                    attributes += class_override.attributes
+
+                override_class_definition.functions = functions
+                override_class_definition.attributes = attributes
+
+        # apply function overrides
+        for override_function_definition in function_definitions:
+            if override_function_definition.name in function_override_names:
+                function_override = function_overrides[
+                    function_override_names.index(
+                        override_function_definition.name
+                    )
+                ]
+
+                override_function_definition.arguments = (
+                    function_override.arguments
+                )
+                override_function_definition.return_type = (
+                    function_override.return_type
+                )
+
         # collect imports from classes
-        for class_definition in class_definitions:
+        for import_class_definition in class_definitions:
             # collect imports from class bases
-            if class_definition.bases:
+            if import_class_definition.bases:
                 bases: List[str] = []
 
-                for base in class_definition.bases:
-                    parts = base.split(".")
+                if import_class_definition.bases:
+                    for base in import_class_definition.bases:
+                        parts = base.split(".")
 
-                    class_name = parts[-1]
+                        class_name = parts[-1]
 
-                    if class_name in classes:
-                        class_names = imports.setdefault(
-                            classes[class_name], []
-                        )
+                        if class_name in classes:
+                            class_names = imports.setdefault(
+                                classes[class_name], []
+                            )
 
-                        if class_name not in class_names:
-                            class_names.append(class_name)
+                            if class_name not in class_names:
+                                class_names.append(class_name)
 
-                        bases.append(class_name)
-                    else:
-                        bases.append(base)
+                            bases.append(class_name)
+                        else:
+                            bases.append(base)
 
-                class_definition.bases = bases
+                import_class_definition.bases = bases
 
             # collect imports from argument hints
-            hints = class_definition.get_hints()
+            hints = import_class_definition.get_hints()
 
             for hint in hints:
                 for nhint in hint.iterate_children():
@@ -735,9 +976,9 @@ if __name__ == "__main__":
                         nhint.name = class_name
 
         # collect imports from functions
-        for function_definition in function_definitions:
+        for import_function_definition in function_definitions:
             # collect imports from argument hints
-            hints = function_definition.get_hints()
+            hints = import_function_definition.get_hints()
 
             for hint in hints:
                 for nhint in hint.iterate_children():
@@ -799,53 +1040,11 @@ if __name__ == "__main__":
             # write classes
             if class_definitions:
                 for class_definition in class_definitions:
-                    if class_definition.name in class_overrides:
-                        override_functions = class_overrides[
-                            class_definition.name
-                        ]
-
-                        override_function_names = [
-                            x.name for x in override_functions
-                        ]
-
-                        overridden_functions = override_functions[::]
-
-                        if class_definition.functions:
-                            for x in class_definition.functions:
-                                if x.name not in override_function_names:
-                                    overridden_functions.append(x)
-                                else:
-                                    overridden_functions[
-                                        override_function_names.index(x.name)
-                                    ].comment = x.comment
-
-                        test = ClassDef(
-                            class_definition.name,
-                            class_definition.bases,
-                            overridden_functions,
-                        )
-
-                        f.write("\n\n")
-                        f.write(test.render())
-                    else:
-                        f.write("\n\n")
-                        f.write(class_definition.render())
+                    f.write("\n\n")
+                    f.write(class_definition.render())
 
             # write functions
             if function_definitions:
                 for function_definition in function_definitions:
-                    override_function_names = [
-                        x.name for x in function_overrides
-                    ]
-
-                    if function_definition.name in override_function_names:
-                        overridden_function = function_overrides[
-                            override_function_names.index(
-                                function_definition.name
-                            )
-                        ]
-                        f.write("\n\n")
-                        f.write(overridden_function.render())
-                    else:
-                        f.write("\n\n")
-                        f.write(function_definition.render())
+                    f.write("\n\n")
+                    f.write(function_definition.render())
