@@ -450,21 +450,198 @@ if __name__ == "__main__":
     modules: Dict[str, Any] = {}
 
     class_overrides: Dict[str, List[FunctionDef]] = {
+        "Vector": [
+            FunctionDef(
+                "__init__",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef(
+                        "x",
+                        HintDef(
+                            "Union",
+                            [
+                                HintDef("int"),
+                                HintDef("Vector"),
+                                HintDef("float"),
+                            ],
+                        ),
+                    ),
+                    ArgumentDef(
+                        "y",
+                        HintDef(
+                            "Optional",
+                            [
+                                HintDef(
+                                    "Union", [HintDef("int"), HintDef("float")]
+                                )
+                            ],
+                        ),
+                        True,
+                        "...",
+                    ),
+                    ArgumentDef(
+                        "z",
+                        HintDef(
+                            "Optional",
+                            [
+                                HintDef(
+                                    "Union", [HintDef("int"), HintDef("float")]
+                                )
+                            ],
+                        ),
+                        True,
+                        "...",
+                    ),
+                ],
+            )
+        ],
+        "BaseContainer": [
+            FunctionDef(
+                "__init__",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef(
+                        "n",
+                        HintDef(
+                            "Optional",
+                            [
+                                HintDef(
+                                    "Union",
+                                    [
+                                        HintDef("BaseContainer"),
+                                        HintDef("int"),
+                                    ],
+                                )
+                            ],
+                        ),
+                        True,
+                        "...",
+                    ),
+                ],
+            )
+        ],
+        "DescID": [
+            FunctionDef(
+                "__init__",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef("id1", HintDef("DescLevel")),
+                    ArgumentDef(
+                        "id2",
+                        HintDef("Optional", [HintDef("DescLevel")]),
+                        True,
+                        "...",
+                    ),
+                    ArgumentDef(
+                        "id3",
+                        HintDef("Optional", [HintDef("DescLevel")]),
+                        True,
+                        "...",
+                    ),
+                ],
+            )
+        ],
+        "DescLevel": [
+            FunctionDef(
+                "__init__",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef("t_id", HintDef("int")),
+                    ArgumentDef("t_datatype", HintDef("int")),
+                    ArgumentDef(
+                        "t_creator",
+                        HintDef("Optional", [HintDef("int")]),
+                        True,
+                        "...",
+                    ),
+                ],
+            )
+        ],
         "GeListNode": [
             FunctionDef(
                 "GetChildren",
                 [ArgumentDef("self")],
                 HintDef("List", [HintDef("GeListNode")]),
-            )
+            ),
+            FunctionDef(
+                "GetDataInstance",
+                [ArgumentDef("self")],
+                HintDef("BaseContainer"),
+            ),
+        ],
+        "BaseList2D": [
+            FunctionDef(
+                "GetChildren",
+                [ArgumentDef("self")],
+                HintDef("List", [HintDef("BaseList2D")]),
+            ),
+            FunctionDef(
+                "SetLayerObject",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef(
+                        "layer", HintDef("Optional", [HintDef("LayerObject")])
+                    ),
+                ],
+            ),
         ],
         "BaseObject": [
             FunctionDef(
                 "GetChildren",
                 [ArgumentDef("self")],
                 HintDef("List", [HintDef("BaseObject")]),
+            ),
+            FunctionDef(
+                "MakeTag",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef("x", HintDef("int")),
+                    ArgumentDef(
+                        "pred",
+                        HintDef("Optional", [HintDef("BaseTag")]),
+                        True,
+                        "...",
+                    ),
+                ],
+                HintDef("BaseTag"),
+            ),
+        ],
+        "PriorityData": [
+            FunctionDef(
+                "__init__",
+                [
+                    ArgumentDef("self"),
+                    ArgumentDef(
+                        "v",
+                        HintDef("Optional", [HintDef("PriorityData")]),
+                        True,
+                        "...",
+                    ),
+                ],
             )
         ],
     }
+
+    function_overrides: List[FunctionDef] = [
+        FunctionDef(
+            "LoadDocument",
+            [
+                ArgumentDef(
+                    "name",
+                    HintDef(
+                        "Union", [HintDef("str"), HintDef("MemoryFileStruct")]
+                    ),
+                ),
+                ArgumentDef("loadflags", HintDef("int")),
+                ArgumentDef(
+                    "thread",
+                    HintDef("Optional", [HintDef("BaseThread")]),
+                    True,
+                    "...",
+                ),
+            ],
+        )
+    ]
 
     for root, _, filenames in os.walk(package_directory):
         root_path = Path(root)
@@ -587,6 +764,23 @@ if __name__ == "__main__":
 
             if module_path == "c4d":
                 f.write("from c4d.symbols import *\n")
+                # f.write(
+                #     "from c4d import documents, gui, modules, plugins, storage, threading, utils, bitmaps\n"
+                # )
+
+            submodule_imports: List[str] = []
+
+            for current_module_path in modules.keys():
+                if current_module_path.startswith(module_path):
+                    if len(current_module_path.split(".")) - 1 == len(
+                        module_path.split(".")
+                    ):
+                        submodule_imports.append(
+                            current_module_path.split(".")[-1]
+                        )
+
+            if submodule_imports:
+                f.write("from . import " + ", ".join(submodule_imports) + "\n")
 
             # write imports
             for module_name, class_names in imports.items():
@@ -640,5 +834,18 @@ if __name__ == "__main__":
             # write functions
             if function_definitions:
                 for function_definition in function_definitions:
-                    f.write("\n\n")
-                    f.write(function_definition.render())
+                    override_function_names = [
+                        x.name for x in function_overrides
+                    ]
+
+                    if function_definition.name in override_function_names:
+                        overridden_function = function_overrides[
+                            override_function_names.index(
+                                function_definition.name
+                            )
+                        ]
+                        f.write("\n\n")
+                        f.write(overridden_function.render())
+                    else:
+                        f.write("\n\n")
+                        f.write(function_definition.render())
