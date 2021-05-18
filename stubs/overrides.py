@@ -28,14 +28,36 @@ def deserialize_hint(hint_string: str) -> Hint:
             if " " in hint_name_string:
                 raise Exception(f"Illegal space in '{hint_string}'")
 
+            # create hint instance from hint name string
             hint_instance = deserialize_hint(hint_name_string)
 
-            if "[" in hint_substring:
-                hint_instance.children = [deserialize_hint(hint_substring)]
-            else:
-                hint_instance.children = [
-                    deserialize_hint(x) for x in hint_substring.split(",")
-                ]
+            # figure out what to do with substring
+            nested_levels = 0
+
+            buffer = ""
+
+            for character in hint_substring:
+                if character == " ":
+                    continue
+
+                if nested_levels == 0:
+                    if character == ",":
+                        hint_instance.children.append(deserialize_hint(buffer))
+
+                        buffer = ""
+
+                        continue
+
+                if character == "[":
+                    nested_levels += 1
+
+                if character == "]":
+                    nested_levels = max(nested_levels - 1, 0)
+
+                buffer += character
+
+            if buffer:
+                hint_instance.children.append(deserialize_hint(buffer))
 
             return hint_instance
         else:
@@ -212,49 +234,55 @@ def store_functions(file: Path, function_instances: List[Function]) -> None:
 
 
 if __name__ == "__main__":
-    class_instance = Class(
-        "BaseObject",
-        ["BaseList2D"],
-        attributes=[Argument("x", Hint("float"))],
-        functions=[
-            Function("GetName", [Argument("self")], Hint("str")),
-            Function(
-                "SetName",
-                [Argument("self"), Argument("name", Hint("str"), True)],
-            ),
-            Function(
-                "GetChildren",
-                [Argument("self")],
-                Hint("List", [Hint("BaseObject")]),
-            ),
-            Function("Foobar", return_hint=Hint("str")),
-        ],
-    )
+    # class_instance = Class(
+    #     "BaseObject",
+    #     ["BaseList2D"],
+    #     attributes=[Argument("x", Hint("float"))],
+    #     functions=[
+    #         Function("GetName", [Argument("self")], Hint("str")),
+    #         Function(
+    #             "SetName",
+    #             [Argument("self"), Argument("name", Hint("str"), True)],
+    #         ),
+    #         Function(
+    #             "GetChildren",
+    #             [Argument("self")],
+    #             Hint("List", [Hint("BaseObject")]),
+    #         ),
+    #         Function("Foobar", return_hint=Hint("str")),
+    #     ],
+    # )
 
-    classes_file = Path(
-        "/Users/bernhardesperester/git/cgbits/c4dstubs/classes.yaml"
-    )
+    # classes_file = Path(
+    #     "/Users/bernhardesperester/git/cgbits/c4dstubs/classes.yaml"
+    # )
 
-    store_classes(classes_file, [class_instance])
+    # store_classes(classes_file, [class_instance])
 
-    class_instances = load_classes(classes_file)
+    # class_instances = load_classes(classes_file)
 
-    for class_instance in class_instances:
-        print(class_instance.render())
+    # for class_instance in class_instances:
+    #     print(class_instance.render())
 
-    # test functions
+    # # test functions
 
-    function_instance = Function(
-        "MatrixToHPB", [Argument("m", Hint("c4d.Matrix"))], Hint("c4d.Vector")
-    )
+    # function_instance = Function(
+    #     "MatrixToHPB", [Argument("m", Hint("c4d.Matrix"))], Hint("c4d.Vector")
+    # )
 
-    functions_file = Path(
-        "/Users/bernhardesperester/git/cgbits/c4dstubs/functions.yaml"
-    )
+    # functions_file = Path(
+    #     "/Users/bernhardesperester/git/cgbits/c4dstubs/functions.yaml"
+    # )
 
-    store_functions(functions_file, [function_instance])
+    # store_functions(functions_file, [function_instance])
 
-    function_instances = load_functions(functions_file)
+    # function_instances = load_functions(functions_file)
 
-    for function_instance in function_instances:
-        print(function_instance.render())
+    # for function_instance in function_instances:
+    #     print(function_instance.render())
+
+    test = "Union[bool, Tuple[bool, int]]"
+
+    hint_instance = deserialize_hint(test)
+
+    print(hint_instance.signature)

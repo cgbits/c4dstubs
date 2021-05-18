@@ -5,7 +5,13 @@ from typing import Generator, List, Optional, Dict
 from pathlib import Path
 
 from stubs.signatures import Class, Argument, Function, Hint
-from stubs.parsers import load_functions, load_classes, parse_file
+from stubs.parsers import parse_file
+from stubs.overrides import (
+    load_functions,
+    load_classes,
+    store_functions,
+    store_classes,
+)
 
 
 class Import:
@@ -189,7 +195,6 @@ if __name__ == "__main__":
             function_instances,
             class_overrides,
             function_overrides,
-            True,
         )
 
         module_instance = Module(
@@ -318,3 +323,7 @@ if __name__ == "__main__":
             f.write(header)
 
             f.write(module_instance.render())
+
+    store_classes(classes_file, class_overrides)
+
+    store_functions(functions_file, function_overrides)

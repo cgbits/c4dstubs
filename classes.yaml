@@ -3,8 +3,8 @@ BaseList2D(GeListNode):
   functions:
     SetUserDataContainer:
     - self
-    - 'descid: c4d.DescID'
-    - 'datadescription: c4d.BaseContainer'
+    - 'descid: DescID'
+    - 'datadescription: BaseContainer'
     - '->: bool'
 BaseObject(BaseList2D):
   attributes: []
@@ -12,7 +12,7 @@ BaseObject(BaseList2D):
     AddDependence:
     - self
     - 'hh: Any'
-    - 'op: c4d.BaseObject'
+    - 'op: BaseObject'
     - 'dirtyflags: int'
     - '->: Any'
     CheckCache:
@@ -22,25 +22,123 @@ BaseObject(BaseList2D):
     GetAndCheckHierarchyClone:
     - self
     - 'hh: Any'
-    - 'op: c4d.BaseObject'
+    - 'op: BaseObject'
     - 'flags: int'
     - 'allchildren: bool'
     - 'dirty: bool'
-    - 'trans: c4d.AliasTrans'
+    - 'trans: AliasTrans'
     - '->: Any'
     GetCache:
     - self
     - 'hh: Any'
-    - '->: c4d.BaseObject'
+    - '->: BaseObject'
     GetHierarchyClone:
     - self
     - 'hh: Any'
-    - 'op: c4d.BaseObject'
+    - 'op: BaseObject'
     - 'flags: int'
     - 'dirty: bool'
-    - 'trans: c4d.AliasTrans'
+    - 'trans: AliasTrans'
     - 'dirtyflags: int'
     - '->: Any'
+ByteSeq(object):
+  attributes: []
+  functions:
+    __init__:
+    - self
+    - 'buf: Any'
+    - 'len: int'
+    - 'readonly: bool'
+    - '->: ByteSeq'
+    __iter__:
+    - self
+    - '->: Iterable[str]'
+C4D_Falloff(object):
+  attributes: []
+  functions:
+    MultiSample:
+    - self
+    - 'points: List[Vector]'
+    - 'usespline: bool'
+    - 'weight: Optional[float] = ...'
+    - '->: List[float]'
+CAWeightMgr(object):
+  attributes: []
+  functions:
+    GetAutoWeightAlgoId:
+    - self
+    - 'doc: BaseDocument'
+    - 'index: int'
+    - '->: int'
+    GetAutoWeightAlgoIndex:
+    - self
+    - 'doc: BaseDocument'
+    - 'stringId: int'
+    - '->: int'
+    GetAutoWeightDictionary:
+    - self
+    - 'doc: BaseDocument'
+    - 'stringId: int'
+    - '->: Any'
+    SetAutoWeightDictionary:
+    - self
+    - 'doc: BaseDocument'
+    - 'dataDictionary: Any'
+    - 'stringId: int'
+    - '->: bool'
+ColorSwatchData(object):
+  attributes: []
+  functions:
+    AddGroup:
+    - self
+    - 'category: Optional[int] = ...'
+    - 'name: Optional[str] = ...'
+    - 'selected: Optional[bool] = ...'
+    - 'insertAt: Optional[int] = ...'
+    - 'colors: Optional[Any] = ...'
+    - '->: ColorSwatchGroup'
+ColorSwatchGroup(object):
+  attributes: []
+  functions:
+    AddColor:
+    - self
+    - 'color: Any'
+    - 'selected: Vector'
+    - 'insertAt: Vector'
+    - '->: int'
+    AddColors:
+    - self
+    - 'colors: Any'
+    - 'selected: bool'
+    - 'merge: bool'
+    - 'insertAt: int'
+    - '->: int'
+    GetColor:
+    - self
+    - 'index: int'
+    - '->: Any'
+    GetColors:
+    - self
+    - 'selectedOnly: bool'
+    - '->: Any'
+    SetColor:
+    - self
+    - 'index: int'
+    - 'color: Any'
+    - 'selected: int'
+    - '->: bool'
+    __init__:
+    - self
+    - 'name: str'
+    - 'selected: bool'
+    - 'colors: Any'
+    - '->: ColorSwatchGroup'
+GeClipMap(object):
+  attributes: []
+  functions:
+    GetDim:
+    - self
+    - '->: Tuple[int, int]'
 GeListNode(C4DAtom):
   attributes: []
   functions:
@@ -50,19 +148,30 @@ GeListNode(C4DAtom):
     - '->: List[Dict[str, Any]]'
     GetDown:
     - self
-    - '->: Optional[c4d.GeListNode] = ...'
+    - '->: Optional[GeListNode] = ...'
     GetDownLast:
     - self
-    - '->: Optional[c4d.GeListNode] = ...'
+    - '->: Optional[GeListNode] = ...'
     GetNext:
     - self
-    - '->: Optional[c4d.GeListNode] = ...'
+    - '->: Optional[GeListNode] = ...'
     GetPred:
     - self
-    - '->: Optional[c4d.GeListNode] = ...'
+    - '->: Optional[GeListNode] = ...'
     GetUp:
     - self
-    - '->: Optional[c4d.GeListNode] = ...'
+    - '->: Optional[GeListNode] = ...'
+GeUserArea(object):
+  attributes: []
+  functions:
+    DrawBezier:
+    - self
+    - 'sx: float'
+    - 'sy: float'
+    - 'p: List[float]'
+    - 'closed: bool'
+    - 'filled: bool'
+    - '->: None'
 Gradient(CustomDataType):
   attributes: []
   functions:
@@ -80,32 +189,137 @@ InstanceObject(BaseObject):
   functions:
     SetInstanceColors:
     - self
-    - 'colors: List[c4d.Vector]'
+    - 'colors: List[Vector]'
     - '->: bool'
     SetInstanceMatrices:
     - self
-    - 'matrices: List[c4d.Matrix]'
+    - 'matrices: List[Matrix]'
     - '->: bool'
 Matrix:
   attributes:
-  - 'off: c4d.Vector'
-  - 'v1: c4d.Vector'
-  - 'v2: c4d.Vector'
-  - 'v3: c4d.Vector'
+  - 'off: Vector'
+  - 'v1: Vector'
+  - 'v2: Vector'
+  - 'v3: Vector'
   functions: {}
+MoData(object):
+  attributes: []
+  functions:
+    GetFalloffs:
+    - self
+    - '->: List[float]'
+NodeData(BaseData):
+  attributes: []
+  functions:
+    GetDDescription:
+    - self
+    - 'node: GeListNode'
+    - 'description: Description'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
+    GetDParameter:
+    - self
+    - 'node: GeListNode'
+    - 'id: DescID'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, Any, int]]'
+    SetDParameter:
+    - self
+    - 'node: GeListNode'
+    - 'id: DescID'
+    - 't_data: Any'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
+ObjectData(NodeData):
+  attributes: []
+  functions:
+    GetContour:
+    - self
+    - 'op: BaseObject'
+    - 'doc: BaseDocument'
+    - 'lod: int'
+    - 'bt: BaseThread'
+    - '->: Optional[SplineObject] = ...'
+    GetVirtualObjects:
+    - self
+    - 'op: BaseObject'
+    - 'hh: Any'
+    - '->: BaseObject'
 PointObject(BaseObject):
   attributes: []
   functions:
     CalcVertexMap:
     - self
-    - 'modifier: c4d.BaseObject'
+    - 'modifier: BaseObject'
     - '->: List[float]'
 PolygonObject(PointObject):
   attributes: []
   functions:
     CreatePhongNormals:
     - self
-    - '->: List[c4d.Vector]'
+    - '->: List[Vector]'
+    GetNGonTranslationMap:
+    - self
+    - 'ngoncnt: int'
+    - 'polymap: List[int]'
+    - '->: List[int]'
+TP_MasterSystem(BaseList2D):
+  attributes: []
+  functions:
+    GetParticles:
+    - self
+    - 'all: bool'
+    - '->: List[int]'
+    GetVirtualObjects:
+    - self
+    - 'ingroup: TP_PGroup'
+    - 'inRender: bool'
+    - 'subgroups: bool'
+    - 'hh: Any'
+    - '->: BaseObject'
+TempUVHandle(object):
+  attributes: []
+  functions:
+    GetUVW:
+    - self
+    - '->: List[Dict[str, Any]]'
+    SetUVW:
+    - self
+    - 'uvw: List[Dict[str, Any]]'
+    - '->: bool'
+    SetUVWFromTextureView:
+    - self
+    - 'uvw: List[Dict[str, Any]]'
+    - 'ignoreHidden: bool'
+    - 'ignoreUnselected: bool'
+    - 'autoSelectAll: bool'
+    - 'registerUndo: bool'
+    - '->: bool'
+ToolData(BaseData):
+  attributes: []
+  functions:
+    GetDDescription:
+    - self
+    - 'doc: BaseDocument'
+    - 'data: BaseContainer'
+    - 'description: Description'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
+    GetDParameter:
+    - self
+    - 'doc: BaseDocument'
+    - 'data: BaseContainer'
+    - 'id: DescID'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, Any, int]]'
+    SetDParameter:
+    - self
+    - 'doc: BaseDocument'
+    - 'data: BaseContainer'
+    - 'id: DescID'
+    - 't_data: Any'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
 Vector(object):
   attributes:
   - 'x: float'
@@ -114,5 +328,5 @@ Vector(object):
   functions:
     __mul__:
     - self
-    - 'other: c4d.Matrix'
-    - '->: Union[c4d.Vector, float]'
+    - 'other: Matrix'
+    - '->: Union[Vector, float]'
