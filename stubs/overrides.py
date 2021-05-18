@@ -6,6 +6,10 @@ from stubs.signatures import Class, Function, Argument, Hint
 
 
 def deserialize_hint(hint_string: str) -> Hint:
+    hint_string = hint_string.strip()
+
+    hint_string = hint_string.strip(".")
+
     # handle nested definitions in brackets
     opening_bracket_index = hint_string.find("[")
     closing_bracket_index = hint_string[::-1].find("]")
@@ -19,7 +23,12 @@ def deserialize_hint(hint_string: str) -> Hint:
 
             hint_substring = hint_string[start:stop]
 
-            hint_instance = deserialize_hint(hint_string[: start - 1])
+            hint_name_string = hint_string[: start - 1]
+
+            if " " in hint_name_string:
+                raise Exception(f"Illegal space in '{hint_string}'")
+
+            hint_instance = deserialize_hint(hint_name_string)
 
             if "[" in hint_substring:
                 hint_instance.children = [deserialize_hint(hint_substring)]

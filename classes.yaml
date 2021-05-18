@@ -12,7 +12,7 @@ BaseObject(BaseList2D):
     AddDependence:
     - self
     - 'hh: Any'
-    - 'op: c4d.Baseobject'
+    - 'op: c4d.BaseObject'
     - 'dirtyflags: int'
     - '->: Any'
     CheckCache:
@@ -22,7 +22,7 @@ BaseObject(BaseList2D):
     GetAndCheckHierarchyClone:
     - self
     - 'hh: Any'
-    - 'op: c4d.Baseobject'
+    - 'op: c4d.BaseObject'
     - 'flags: int'
     - 'allchildren: bool'
     - 'dirty: bool'
@@ -31,11 +31,11 @@ BaseObject(BaseList2D):
     GetCache:
     - self
     - 'hh: Any'
-    - '->: c4d.Baseobject'
+    - '->: c4d.BaseObject'
     GetHierarchyClone:
     - self
     - 'hh: Any'
-    - 'op: c4d.Baseobject'
+    - 'op: c4d.BaseObject'
     - 'flags: int'
     - 'dirty: bool'
     - 'trans: c4d.AliasTrans'
@@ -47,7 +47,7 @@ GeListNode(C4DAtom):
     GetBranchInfo:
     - self
     - 'flags: int'
-    - '->: List[Dict[str,        Any]]'
+    - '->: List[Dict[str, Any]]'
     GetDown:
     - self
     - '->: Optional[c4d.GeListNode] = ...'
@@ -98,7 +98,7 @@ PointObject(BaseObject):
   functions:
     CalcVertexMap:
     - self
-    - 'modifier: c4d.Baseobject'
+    - 'modifier: c4d.BaseObject'
     - '->: List[float]'
 PolygonObject(PointObject):
   attributes: []
@@ -115,4 +115,4 @@ Vector(object):
     __mul__:
     - self
     - 'other: c4d.Matrix'
-    - '->: Union[c4d.Vector,        float]'
+    - '->: Union[c4d.Vector, float]'

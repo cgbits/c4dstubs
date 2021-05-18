@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, List
+from typing import Optional, List, Generator
 
 
 class Signature:
@@ -51,6 +51,12 @@ class Hint(Signature):
     def render(self) -> str:
         return self.definition
 
+    def get_hints(self) -> Generator[Hint, None, None]:
+        yield self
+
+        for child in self.children:
+            yield from child.get_hints()
+
 
 class Argument(Signature):
     def __init__(
@@ -84,6 +90,9 @@ class Argument(Signature):
     def render(self) -> str:
         return self.definition
 
+    def get_hints(self) -> Generator[Hint, None, None]:
+        yield from self.hint.get_hints()
+
 
 class Function(Signature):
     def __init__(
@@ -108,9 +117,27 @@ class Function(Signature):
     def signature(self) -> str:
         result = "("
 
-        result += ", ".join([x.signature for x in self.arguments])
+        argument_signatures: List[str] = []
 
-        result += f") -> {self.return_hint.signature}"
+        for index, argument_signature in enumerate(self.arguments):
+            if index > 0:
+                # test if previous argument is optional
+                if self.arguments[index - 1].hint.name == "Optional":
+                    if argument_signature.hint.name != "Optional":
+                        argument_signature.hint = Hint(
+                            "Optional", [argument_signature.hint]
+                        )
+
+            argument_signatures.append(argument_signature.signature)
+
+        result += ", ".join(argument_signatures)
+
+        return_hint_signature = "None"
+
+        if self.name != "__init__":
+            return_hint_signature = self.return_hint.signature
+
+        result += f") -> {return_hint_signature}"
 
         return result
 
@@ -134,6 +161,12 @@ class Function(Signature):
         result += " " * 4 + "...\n"
 
         return result
+
+    def get_hints(self) -> Generator[Hint, None, None]:
+        yield from self.return_hint.get_hints()
+
+        for argument in self.arguments:
+            yield from argument.get_hints()
 
 
 class Class(Signature):
@@ -207,3 +240,10 @@ class Class(Signature):
             result += " " * 4 + "...\n"
 
         return result
+
+    def get_hints(self) -> Generator[Hint, None, None]:
+        for attribute in self.attributes:
+            yield from attribute.get_hints()
+
+        for function in self.functions:
+            yield from function.get_hints()

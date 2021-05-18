@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import ast
-from ctypes import Union
+import re
 
 from pathlib import Path
 from typing import Dict, Tuple, Optional, List
@@ -16,18 +16,30 @@ from stubs.overrides import (
 
 
 def parse_hint(hint: str) -> Hint:
+    hint = hint.strip()
+
     if not hint:
         raise Exception("Hint must not be empty")
 
-    # replace known mixups
-    replace = {
+    if hint.startswith("function"):
+        return Hint("Callable[..., Any]")
+
+    if "maxon" in hint:
+        raise Exception(f"Unknown hint '{hint}'")
+
+    # substitute known mixups
+    substitute = {
+        "*": "",
+        "`": "",
         "(": "[",
         ")": "]",
+        ">": "",
+        "<": "",
         "any": "Any",
         "tuple": "Tuple",
         "list": "List",
         "dict": "Dict",
-        "Object": "object",
+        "object": "Object",
         "long": "int",
         "16float": "float",
         "optional": "Optional",
@@ -35,17 +47,53 @@ def parse_hint(hint: str) -> Hint:
         "string": "str",
         "false": "bool",
         "true": "bool",
+        "False": "bool",
+        "True": "bool",
+        "number": "int",
+        "intcl": "int",
+        "Type": "Any",
+        "buffer": "Any",
+        "ptr": "Any",
+        "Uuid": "UUID",
+        "uuid": "UUID",
     }
 
-    for key, value in replace.items():
+    for key, value in substitute.items():
         hint = hint.replace(key, value)
+
+    # replace
+    replace = {"Object": "object"}
+
+    for key, value in replace.items():
+        if hint == key:
+            hint = value
+
+    # fix known class name typing errors
+    # class_names = ["BaseObject", "LayerObject", "SplineObject", "LineObject"]
+
+    # for class_name in class_names:
+    #     pattern = re.compile(re.escape(class_name), re.IGNORECASE)
+    #     hint = pattern.sub(class_name, hint)
 
     if " " in hint and not "[" in hint:
         raise Exception(
             f"Illeagal whitespace in hint without brackets '{hint}'"
         )
 
-    return deserialize_hint(hint)
+    hint_result = deserialize_hint(hint)
+
+    for hint_instance in hint_result.get_hints():
+        if hint_instance.name == "Dict":
+            if len(hint_instance.children) != 2:
+                hint_instance.children = [Hint("str"), Hint("Any")]
+        elif hint_instance.name == "List":
+            if len(hint_instance.children) != 1:
+                hint_instance.children = [Hint("Any")]
+
+    if hint_result.children and not hint_result.name:
+        hint_result.name = "Union"
+
+    return hint_result
 
 
 def parse_hint_with_user_input_fallback(
@@ -94,9 +142,12 @@ def parse_function(
     for body_node in node.body:
         if isinstance(body_node, ast.Expr):
             if isinstance(body_node.value, ast.Str):
-                docstring = "\n".join(
-                    [x.strip() for x in body_node.value.s.split("\n")]
-                )
+                docstring = ""
+
+                for docstring_line in body_node.value.s.split("\n"):
+                    docstring += (
+                        docstring_line.strip().replace("\\", "/") + "\n"
+                    )
 
     if name in function_override_names:
         # name is present in list of function overrides
@@ -301,43 +352,45 @@ def parse_file(
 
 
 if __name__ == "__main__":
-    file = Path(
-        "/Applications/Maxon Cinema 4D R23/resource/modules/python/libs/python37/c4d/__init__.py"
-    )
+    # file = Path(
+    #     "/Applications/Maxon Cinema 4D R23/resource/modules/python/libs/python37/c4d/__init__.py"
+    # )
 
-    classes_file = Path(
-        "/Users/bernhardesperester/git/cgbits/c4dstubs/classes.yaml"
-    )
+    # classes_file = Path(
+    #     "/Users/bernhardesperester/git/cgbits/c4dstubs/classes.yaml"
+    # )
 
-    functions_file = Path(
-        "/Users/bernhardesperester/git/cgbits/c4dstubs/functions.yaml"
-    )
+    # functions_file = Path(
+    #     "/Users/bernhardesperester/git/cgbits/c4dstubs/functions.yaml"
+    # )
 
-    constant_instances: List[Argument] = []
+    # constant_instances: List[Argument] = []
 
-    class_instances: List[Class] = []
+    # class_instances: List[Class] = []
 
-    function_instances: List[Function] = []
+    # function_instances: List[Function] = []
 
-    classe_overrides: List[Class] = load_classes(classes_file)
+    # classe_overrides: List[Class] = load_classes(classes_file)
 
-    function_overrides: List[Function] = load_functions(functions_file)
+    # function_overrides: List[Function] = load_functions(functions_file)
 
-    parse_file(
-        file,
-        constant_instances,
-        class_instances,
-        function_instances,
-        classe_overrides,
-        function_overrides,
-    )
+    # parse_file(
+    #     file,
+    #     constant_instances,
+    #     class_instances,
+    #     function_instances,
+    #     classe_overrides,
+    #     function_overrides,
+    # )
 
-    store_classes(classes_file, classe_overrides)
+    # store_classes(classes_file, classe_overrides)
 
-    store_functions(functions_file, function_overrides)
+    # store_functions(functions_file, function_overrides)
 
-    for class_instance in class_instances:
-        print(class_instance.render())
+    # for class_instance in class_instances:
+    #     print(class_instance.render())
 
-    for function_instance in function_instances:
-        print(function_instance.render())
+    # for function_instance in function_instances:
+    #     print(function_instance.render())
+
+    print(parse_hint("c4d.BaseObject").signature)
