@@ -1,0 +1,118 @@
+BaseList2D(GeListNode):
+  attributes: []
+  functions:
+    SetUserDataContainer:
+    - self
+    - 'descid: c4d.DescID'
+    - 'datadescription: c4d.BaseContainer'
+    - '->: bool'
+BaseObject(BaseList2D):
+  attributes: []
+  functions:
+    AddDependence:
+    - self
+    - 'hh: Any'
+    - 'op: c4d.Baseobject'
+    - 'dirtyflags: int'
+    - '->: Any'
+    CheckCache:
+    - self
+    - 'hh: Any'
+    - '->: bool'
+    GetAndCheckHierarchyClone:
+    - self
+    - 'hh: Any'
+    - 'op: c4d.Baseobject'
+    - 'flags: int'
+    - 'allchildren: bool'
+    - 'dirty: bool'
+    - 'trans: c4d.AliasTrans'
+    - '->: Any'
+    GetCache:
+    - self
+    - 'hh: Any'
+    - '->: c4d.Baseobject'
+    GetHierarchyClone:
+    - self
+    - 'hh: Any'
+    - 'op: c4d.Baseobject'
+    - 'flags: int'
+    - 'dirty: bool'
+    - 'trans: c4d.AliasTrans'
+    - 'dirtyflags: int'
+    - '->: Any'
+GeListNode(C4DAtom):
+  attributes: []
+  functions:
+    GetBranchInfo:
+    - self
+    - 'flags: int'
+    - '->: List[Dict[str,        Any]]'
+    GetDown:
+    - self
+    - '->: Optional[c4d.GeListNode] = ...'
+    GetDownLast:
+    - self
+    - '->: Optional[c4d.GeListNode] = ...'
+    GetNext:
+    - self
+    - '->: Optional[c4d.GeListNode] = ...'
+    GetPred:
+    - self
+    - '->: Optional[c4d.GeListNode] = ...'
+    GetUp:
+    - self
+    - '->: Optional[c4d.GeListNode] = ...'
+Gradient(CustomDataType):
+  attributes: []
+  functions:
+    GetData:
+    - self
+    - 'id: int'
+    - '->: Any'
+    SetData:
+    - self
+    - 'id: int'
+    - 'data: Any'
+    - '->: Any'
+InstanceObject(BaseObject):
+  attributes: []
+  functions:
+    SetInstanceColors:
+    - self
+    - 'colors: List[c4d.Vector]'
+    - '->: bool'
+    SetInstanceMatrices:
+    - self
+    - 'matrices: List[c4d.Matrix]'
+    - '->: bool'
+Matrix:
+  attributes:
+  - 'off: c4d.Vector'
+  - 'v1: c4d.Vector'
+  - 'v2: c4d.Vector'
+  - 'v3: c4d.Vector'
+  functions: {}
+PointObject(BaseObject):
+  attributes: []
+  functions:
+    CalcVertexMap:
+    - self
+    - 'modifier: c4d.Baseobject'
+    - '->: List[float]'
+PolygonObject(PointObject):
+  attributes: []
+  functions:
+    CreatePhongNormals:
+    - self
+    - '->: List[c4d.Vector]'
+Vector(object):
+  attributes:
+  - 'x: float'
+  - 'y: float'
+  - 'z: float'
+  functions:
+    __mul__:
+    - self
+    - 'other: c4d.Matrix'
+    - '->: Union[c4d.Vector,        float]'
