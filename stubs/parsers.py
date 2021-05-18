@@ -29,6 +29,7 @@ def parse_hint(hint: str) -> Hint:
         ")": "]",
         ">": "",
         "<": "",
+        "Slice": "List",
         "any": "Any",
         "tuple": "Tuple",
         "list": "List",
