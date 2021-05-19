@@ -12,7 +12,13 @@ I can not guarantee that the definitions provided here are 100% accurate. Roughl
 
 This repository also provides the means to convert your local installation of the dummy package based on the docstring type and rtype notation. Edge cases will prompt for user input, overrides may be defined in the appropriate **classes.yaml** / **functions.yaml** file.
 
-I am currently
+Use it like this:
+
+```
+> python3 c4dstubs SOURCE DESTINATION CLASSES FUNCTIONS
+```
+
+Where **SOURCE** is the path to the directory containing the dummy definition as defined in the documentation[1], **DESTINATION** is the path to the directory where you would like to store the result, **CLASSES** is the path to the classes overrides .yaml file where manual overrides may be added, **FUNCTIONS** is the path to the functions overrides .yaml file where manual overrides may be added. Use the **--silent** / **--interactive** flag to disable or enable user input for edge cases, where the hint can not be derived from the docstring.
 
 [1]: [Dummy Package](https://developers.maxon.net/docs/Cinema4DPythonSDK/html/manuals/introduction/autocompletion_dummy_package.html)
 

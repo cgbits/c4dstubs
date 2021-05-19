@@ -146,12 +146,11 @@ def convert_source(
     destination_directory: Path,
     classes_file: Path,
     functions_file: Path,
+    silent: bool = True,
 ) -> None:
+    package_directory = src_directory.joinpath("c4d")
+
     # load overrides
-    classes_file = repository_directory.joinpath("classes.yaml")
-
-    functions_file = repository_directory.joinpath("functions.yaml")
-
     class_overrides: List[Class] = load_classes(classes_file)
 
     function_overrides: List[Function] = load_functions(functions_file)
@@ -188,6 +187,7 @@ def convert_source(
             function_instances,
             class_overrides,
             function_overrides,
+            silent,
         )
 
         module_instance = Module(
@@ -320,17 +320,3 @@ def convert_source(
     store_classes(classes_file, class_overrides)
 
     store_functions(functions_file, function_overrides)
-
-
-# if __name__ == "__main__":
-#     repository_directory = Path(
-#         "/Users/bernhardesperester/git/cgbits/c4dstubs"
-#     )
-
-#     src_directory = Path(
-#         "/Applications/Maxon Cinema 4D R23/resource/modules/python/libs/python37"
-#     )
-
-#     package_directory = src_directory.joinpath("c4d")
-
-#     destination_directory = repository_directory.joinpath("dist")
