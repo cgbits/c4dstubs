@@ -2,7 +2,7 @@ import yaml
 
 from typing import List, Dict, Union, Any
 from pathlib import Path
-from stubs.signatures import Class, Function, Argument, Hint
+from c4dstubs.signatures import Class, Function, Argument, Hint
 
 
 def deserialize_hint(hint_string: str) -> Hint:

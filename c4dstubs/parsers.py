@@ -5,8 +5,8 @@ import re
 
 from pathlib import Path
 from typing import Dict, Tuple, Optional, List
-from stubs.signatures import Class, Function, Argument, Hint
-from stubs.overrides import deserialize_hint
+from c4dstubs.signatures import Class, Function, Argument, Hint
+from c4dstubs.overrides import deserialize_hint
 
 
 def parse_hint(hint: str) -> Hint:

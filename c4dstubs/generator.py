@@ -4,9 +4,9 @@ from math import ceil, floor
 from typing import Generator, List, Optional, Dict
 from pathlib import Path
 
-from stubs.signatures import Class, Argument, Function, Hint
-from stubs.parsers import parse_file
-from stubs.overrides import (
+from c4dstubs.signatures import Class, Argument, Function, Hint
+from c4dstubs.parsers import parse_file
+from c4dstubs.overrides import (
     load_functions,
     load_classes,
     store_functions,
@@ -128,7 +128,7 @@ class Module:
         return result
 
 
-def module_name_from_file_path(file: Path) -> str:
+def module_name_from_file_path(file: Path, src_directory: Path) -> str:
     file_relative_path = file.relative_to(src_directory)
 
     path, _ = os.path.splitext(file_relative_path)
@@ -141,19 +141,12 @@ def module_name_from_file_path(file: Path) -> str:
         return path.replace("/", ".")
 
 
-if __name__ == "__main__":
-    repository_directory = Path(
-        "/Users/bernhardesperester/git/cgbits/c4dstubs"
-    )
-
-    src_directory = Path(
-        "/Applications/Maxon Cinema 4D R23/resource/modules/python/libs/python37"
-    )
-
-    package_directory = src_directory.joinpath("c4d")
-
-    destination_directory = repository_directory.joinpath("dist")
-
+def convert_source(
+    src_directory: Path,
+    destination_directory: Path,
+    classes_file: Path,
+    functions_file: Path,
+) -> None:
     # load overrides
     classes_file = repository_directory.joinpath("classes.yaml")
 
@@ -180,7 +173,7 @@ if __name__ == "__main__":
     classes_lookup: Dict[str, str] = {"UUID": "uuid"}
 
     for file in files:
-        module_name = module_name_from_file_path(file)
+        module_name = module_name_from_file_path(file, src_directory)
 
         constant_instances: List[Argument] = []
 
@@ -327,3 +320,17 @@ if __name__ == "__main__":
     store_classes(classes_file, class_overrides)
 
     store_functions(functions_file, function_overrides)
+
+
+# if __name__ == "__main__":
+#     repository_directory = Path(
+#         "/Users/bernhardesperester/git/cgbits/c4dstubs"
+#     )
+
+#     src_directory = Path(
+#         "/Applications/Maxon Cinema 4D R23/resource/modules/python/libs/python37"
+#     )
+
+#     package_directory = src_directory.joinpath("c4d")
+
+#     destination_directory = repository_directory.joinpath("dist")
