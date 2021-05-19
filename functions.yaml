@@ -74,6 +74,21 @@ GetImageSettingsDictionary:
 - 'data: BaseContainer'
 - 'filterId: int'
 - '->: Any'
+LoadDocument:
+- 'name: Union[str, MemoryFileStruct]'
+- 'loadflags: int'
+- 'thread: Optional[BaseThread] = ...'
+- '->: BaseDocument'
+RegisterTagPlugin:
+- 'id: int'
+- 'str: str'
+- 'info: int'
+- 'g: Any'
+- 'description: str'
+- 'icon: Union[None, BaseBitmap]'
+- 'disklevel: Optional[int] = ...'
+- 'res: Optional[GeResource] = ...'
+- '->: None'
 SendVolumeCommand:
 - 'command: int'
 - 'list: Any'

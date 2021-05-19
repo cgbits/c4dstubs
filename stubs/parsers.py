@@ -44,7 +44,7 @@ def parse_hint(hint: str) -> Hint:
         "true": "bool",
         "False": "bool",
         "True": "bool",
-        "number": "int",
+        "number": "float",
         "intcl": "int",
         "Type": "Any",
         "buffer": "Any",
@@ -269,15 +269,19 @@ def parse_class(
         function_overrides = class_override.functions
 
     for body_node in node.body:
+        # parse functions from class body
         if isinstance(body_node, ast.FunctionDef):
-            # function_name = body_node.name
-
-            # if function_name not in [x.name for x in functions]:
-            # function was not found in overrides
             function_instance = parse_function(
                 body_node, function_overrides, fail_silently
             )
 
+            functions.append(function_instance)
+
+    # add functions that have been only defined in the classs override file
+    function_names: List[str] = [x.name for x in functions]
+
+    for function_instance in function_overrides:
+        if function_instance.name not in function_names:
             functions.append(function_instance)
 
     class_instance = Class(name, bases, attributes, functions)
