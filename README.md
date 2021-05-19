@@ -2,7 +2,7 @@
 
 This repository provides alternative class and function definitions for MAXON's python dummy package[1] with support for the type hints introduced in python 3.5 and available in Cinema 4D with python 3.7 as specified by [PEP 484](https://www.python.org/dev/peps/pep-0484), [PEP 526](https://www.python.org/dev/peps/pep-0526), [PEP 544](https://www.python.org/dev/peps/pep-0544), [PEP 586](https://www.python.org/dev/peps/pep-0586), [PEP 589](https://www.python.org/dev/peps/pep-0589), and [PEP 591](https://www.python.org/dev/peps/pep-0591).
 
-> Note The Python runtime does not enforce function and variable type annotations. They can be used by third party tools such as type checkers, IDEs, linters, etc.
+> **Note** The Python runtime does not enforce function and variable type annotations. They can be used by third party tools such as type checkers, IDEs, linters, etc.
 
 I am using those definitions with pylance and Visual Studio Code which gives nice enough results.
 
