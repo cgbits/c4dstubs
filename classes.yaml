@@ -191,7 +191,8 @@ DescID(object):
     - 'id3: Optional[DescLevel] = ...'
     - '->: None'
 DescLevel(object):
-  attributes: []
+  attributes:
+  - 'id: int'
   functions:
     __init__:
     - self
@@ -295,6 +296,13 @@ Matrix:
   - 'v2: Vector'
   - 'v3: Vector'
   functions:
+    __init__:
+    - self
+    - 'off: Optional[Vector] = ...'
+    - 'v1: Optional[Vector] = ...'
+    - 'v2: Optional[Vector] = ...'
+    - 'v3: Optional[Vector] = ...'
+    - '->: None'
     __mul__:
     - self
     - 'other: Union[Matrix, Vector, int, float]'
@@ -397,6 +405,14 @@ TagData(c4d.plugins.NodeData):
     - 'description: Description'
     - 'flags: int'
     - '->: Union[bool, Tuple[bool, int]]'
+    GetDEnabling:
+    - self
+    - 'node: BaseTag'
+    - 'id: DescID'
+    - 't_data: Any'
+    - 'flags: int'
+    - 'itemdesc: BaseContainer'
+    - '->: bool'
     Message:
     - self
     - 'node: BaseTag'

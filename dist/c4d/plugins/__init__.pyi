@@ -2940,6 +2940,9 @@ class TagData(NodeData):
     def GetDDescription(self, node: BaseTag, description: Description, flags: int) -> Union[bool, Tuple[bool, int]]:
         ...
     
+    def GetDEnabling(self, node: BaseTag, id: DescID, t_data: Any, flags: int, itemdesc: BaseContainer) -> bool:
+        ...
+    
     def Message(self, node: BaseTag, type: int, data: Any) -> bool:
         ...
     

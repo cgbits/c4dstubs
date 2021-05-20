@@ -1009,6 +1009,8 @@ class DescID(object):
     
 
 class DescLevel(object):
+    id: int
+
     def __init__(self, t_id: int, t_datatype: Optional[int] = ..., t_creator: Optional[int] = ...) -> None:
         """    
         Constructor, specifying the values.
@@ -2263,7 +2265,7 @@ class Matrix(object):
     v2: Vector
     v3: Vector
 
-    def __init__(self, off: Vector, v1: Vector, v2: Vector, v3: Vector) -> None:
+    def __init__(self, off: Optional[Vector] = ..., v1: Optional[Vector] = ..., v2: Optional[Vector] = ..., v3: Optional[Vector] = ...) -> None:
         """    
         | Initializes a new :class:`Matrix <c4d.Matrix>`.
         | All arguments are optional so it is possible to create a new matrix without any arguments. All components are simply set to:
