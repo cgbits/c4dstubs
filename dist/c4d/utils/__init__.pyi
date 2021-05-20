@@ -2879,7 +2879,7 @@ def VectorToHPB(p: Vector) -> Vector:
     """
     ...
 
-def MatrixToHPB(m: Matrix, order: int) -> Vector:
+def MatrixToHPB(m: Matrix, order: Optional[int] = ...) -> Vector:
     """    
     Calculate euler angles from the matrix *m*.
     

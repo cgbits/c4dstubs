@@ -79,6 +79,10 @@ LoadDocument:
 - 'loadflags: int'
 - 'thread: Optional[BaseThread] = ...'
 - '->: BaseDocument'
+MatrixToHPB:
+- 'm: Matrix'
+- 'order: Optional[int] = ...'
+- '->: Vector'
 RegisterTagPlugin:
 - 'id: int'
 - 'str: str'
