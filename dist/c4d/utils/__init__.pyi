@@ -2898,7 +2898,7 @@ def MatrixToHPB(m: Matrix, order: Optional[int] = ...) -> Vector:
     """
     ...
 
-def HPBToMatrix(hpb: Vector, order: int) -> Matrix:
+def HPBToMatrix(hpb: Vector, order: Optional[int] = ...) -> Matrix:
     """    
     Construct matrix from the euler angles *hpb*.
     

@@ -74,6 +74,10 @@ GetImageSettingsDictionary:
 - 'data: BaseContainer'
 - 'filterId: int'
 - '->: Any'
+HPBToMatrix:
+- 'hpb: Vector'
+- 'order: Optional[int] = ...'
+- '->: Matrix'
 LoadDocument:
 - 'name: Union[str, MemoryFileStruct]'
 - 'loadflags: int'
