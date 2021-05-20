@@ -2349,7 +2349,7 @@ class Matrix(object):
         """
         ...
     
-    def __mul__(self, other: Union[Vector, int, float]) -> Vector:
+    def __mul__(self, other: Union[Matrix, Vector, int, float]) -> Union[Matrix, Vector]:
         """    
         | Multiplies a matrix or vector by the matrix. Can also scale each vector of the matrix by a scalar.
         |
@@ -12270,7 +12270,7 @@ class UnitScaleData(CustomDataType):
     
 
 class SplineData(CustomDataType):
-    def __init__(self, v: SplineData) -> None:
+    def __init__(self, v: Optional[SplineData] = ...) -> None:
         """    
         Creates a default 2 points spline.
         

@@ -294,7 +294,11 @@ Matrix:
   - 'v1: Vector'
   - 'v2: Vector'
   - 'v3: Vector'
-  functions: {}
+  functions:
+    __mul__:
+    - self
+    - 'other: Union[Matrix, Vector, int, float]'
+    - '->: Union[Matrix, Vector]'
 MoData(object):
   attributes: []
   functions:
@@ -363,6 +367,13 @@ PriorityData(CustomDataType):
     - self
     - 'v: Optional[PriorityData] = ...'
     - '->: None'
+SplineData(CustomDataType):
+  attributes: []
+  functions:
+    __init__:
+    - self
+    - 'v: Optional[SplineData] = ...'
+    - '->: None'
 TP_MasterSystem(BaseList2D):
   attributes: []
   functions:
@@ -380,6 +391,12 @@ TP_MasterSystem(BaseList2D):
 TagData(c4d.plugins.NodeData):
   attributes: []
   functions:
+    GetDDescription:
+    - self
+    - 'node: BaseTag'
+    - 'description: Description'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
     Message:
     - self
     - 'node: BaseTag'
