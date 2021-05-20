@@ -1742,7 +1742,7 @@ def GetAngle(v1: Vector, v2: Vector) -> float:
     """
     ...
 
-def RangeMap(value: float, mininput: float, maxinput: float, minoutput: float, maxoutput: float, clampval: bool, curve: Optional[SplineData] = ...) -> None:
+def RangeMap(value: float, mininput: float, maxinput: float, minoutput: float, maxoutput: float, clampval: bool, curve: Optional[SplineData] = ...) -> float:
     """    
     Map the value of a range to another, optionnaly applying a spline curve. Similiar to the RangeMapper Node in XPresso.
     
@@ -2879,7 +2879,7 @@ def VectorToHPB(p: Vector) -> Vector:
     """
     ...
 
-def MatrixToHPB(m: Matrix, order: int) -> Vector:
+def MatrixToHPB(m: Matrix, order: Optional[int] = ...) -> Vector:
     """    
     Calculate euler angles from the matrix *m*.
     
@@ -2898,7 +2898,7 @@ def MatrixToHPB(m: Matrix, order: int) -> Vector:
     """
     ...
 
-def HPBToMatrix(hpb: Vector, order: int) -> Matrix:
+def HPBToMatrix(hpb: Vector, order: Optional[int] = ...) -> Matrix:
     """    
     Construct matrix from the euler angles *hpb*.
     

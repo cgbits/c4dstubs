@@ -74,11 +74,28 @@ GetImageSettingsDictionary:
 - 'data: BaseContainer'
 - 'filterId: int'
 - '->: Any'
+HPBToMatrix:
+- 'hpb: Vector'
+- 'order: Optional[int] = ...'
+- '->: Matrix'
 LoadDocument:
 - 'name: Union[str, MemoryFileStruct]'
 - 'loadflags: int'
 - 'thread: Optional[BaseThread] = ...'
 - '->: BaseDocument'
+MatrixToHPB:
+- 'm: Matrix'
+- 'order: Optional[int] = ...'
+- '->: Vector'
+RangeMap:
+- 'value: float'
+- 'mininput: float'
+- 'maxinput: float'
+- 'minoutput: float'
+- 'maxoutput: float'
+- 'clampval: bool'
+- 'curve: Optional[SplineData] = ...'
+- '->: float'
 RegisterTagPlugin:
 - 'id: int'
 - 'str: str'
