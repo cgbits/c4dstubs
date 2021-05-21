@@ -62,6 +62,12 @@ BaseObject(BaseList2D):
     GetChildren:
     - self
     - '->: List[BaseObject]'
+    GetDown:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetDownLast:
+    - self
+    - '->: Optional[BaseObject] = ...'
     GetHierarchyClone:
     - self
     - 'hh: Any'
@@ -71,6 +77,15 @@ BaseObject(BaseList2D):
     - 'trans: AliasTrans'
     - 'dirtyflags: int'
     - '->: Any'
+    GetNext:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetPred:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetUp:
+    - self
+    - '->: Optional[BaseObject] = ...'
     InsertTag:
     - self
     - 'tp: BaseTag'
@@ -378,6 +393,9 @@ PriorityData(CustomDataType):
 SplineData(CustomDataType):
   attributes: []
   functions:
+    GetKnots:
+    - self
+    - '->: List[Dict[str, Any]]'
     __init__:
     - self
     - 'v: Optional[SplineData] = ...'
@@ -412,6 +430,10 @@ TagData(c4d.plugins.NodeData):
     - 't_data: Any'
     - 'flags: int'
     - 'itemdesc: BaseContainer'
+    - '->: bool'
+    Init:
+    - self
+    - 'node: BaseTag'
     - '->: bool'
     Message:
     - self

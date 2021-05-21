@@ -7208,6 +7208,21 @@ class BaseObject(BaseList2D):
     def GetChildren(self) -> List[BaseObject]:
         ...
     
+    def GetDown(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetDownLast(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetNext(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetPred(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetUp(self) -> Optional[BaseObject]:
+        ...
+    
 
 class CameraObject(BaseObject):
     def __init__(self) -> None:
@@ -12576,7 +12591,7 @@ class SplineData(CustomDataType):
         """
         ...
     
-    def GetKnots(self) -> None:
+    def GetKnots(self) -> List[Dict[str, Any]]:
         """    
         Returns all knots.
         

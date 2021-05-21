@@ -2943,6 +2943,9 @@ class TagData(NodeData):
     def GetDEnabling(self, node: BaseTag, id: DescID, t_data: Any, flags: int, itemdesc: BaseContainer) -> bool:
         ...
     
+    def Init(self, node: BaseTag) -> bool:
+        ...
+    
     def Message(self, node: BaseTag, type: int, data: Any) -> bool:
         ...
     
