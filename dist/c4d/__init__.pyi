@@ -1009,6 +1009,8 @@ class DescID(object):
     
 
 class DescLevel(object):
+    id: int
+
     def __init__(self, t_id: int, t_datatype: Optional[int] = ..., t_creator: Optional[int] = ...) -> None:
         """    
         Constructor, specifying the values.
@@ -2263,7 +2265,7 @@ class Matrix(object):
     v2: Vector
     v3: Vector
 
-    def __init__(self, off: Vector, v1: Vector, v2: Vector, v3: Vector) -> None:
+    def __init__(self, off: Optional[Vector] = ..., v1: Optional[Vector] = ..., v2: Optional[Vector] = ..., v3: Optional[Vector] = ...) -> None:
         """    
         | Initializes a new :class:`Matrix <c4d.Matrix>`.
         | All arguments are optional so it is possible to create a new matrix without any arguments. All components are simply set to:
@@ -7204,6 +7206,21 @@ class BaseObject(BaseList2D):
         ...
     
     def GetChildren(self) -> List[BaseObject]:
+        ...
+    
+    def GetDown(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetDownLast(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetNext(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetPred(self) -> Optional[BaseObject]:
+        ...
+    
+    def GetUp(self) -> Optional[BaseObject]:
         ...
     
 
@@ -12574,7 +12591,7 @@ class SplineData(CustomDataType):
         """
         ...
     
-    def GetKnots(self) -> None:
+    def GetKnots(self) -> List[Dict[str, Any]]:
         """    
         Returns all knots.
         

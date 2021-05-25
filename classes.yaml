@@ -62,6 +62,12 @@ BaseObject(BaseList2D):
     GetChildren:
     - self
     - '->: List[BaseObject]'
+    GetDown:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetDownLast:
+    - self
+    - '->: Optional[BaseObject] = ...'
     GetHierarchyClone:
     - self
     - 'hh: Any'
@@ -71,6 +77,15 @@ BaseObject(BaseList2D):
     - 'trans: AliasTrans'
     - 'dirtyflags: int'
     - '->: Any'
+    GetNext:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetPred:
+    - self
+    - '->: Optional[BaseObject] = ...'
+    GetUp:
+    - self
+    - '->: Optional[BaseObject] = ...'
     InsertTag:
     - self
     - 'tp: BaseTag'
@@ -191,7 +206,8 @@ DescID(object):
     - 'id3: Optional[DescLevel] = ...'
     - '->: None'
 DescLevel(object):
-  attributes: []
+  attributes:
+  - 'id: int'
   functions:
     __init__:
     - self
@@ -295,6 +311,13 @@ Matrix:
   - 'v2: Vector'
   - 'v3: Vector'
   functions:
+    __init__:
+    - self
+    - 'off: Optional[Vector] = ...'
+    - 'v1: Optional[Vector] = ...'
+    - 'v2: Optional[Vector] = ...'
+    - 'v3: Optional[Vector] = ...'
+    - '->: None'
     __mul__:
     - self
     - 'other: Union[Matrix, Vector, int, float]'
@@ -370,6 +393,9 @@ PriorityData(CustomDataType):
 SplineData(CustomDataType):
   attributes: []
   functions:
+    GetKnots:
+    - self
+    - '->: List[Dict[str, Any]]'
     __init__:
     - self
     - 'v: Optional[SplineData] = ...'
@@ -397,6 +423,18 @@ TagData(c4d.plugins.NodeData):
     - 'description: Description'
     - 'flags: int'
     - '->: Union[bool, Tuple[bool, int]]'
+    GetDEnabling:
+    - self
+    - 'node: BaseTag'
+    - 'id: DescID'
+    - 't_data: Any'
+    - 'flags: int'
+    - 'itemdesc: BaseContainer'
+    - '->: bool'
+    Init:
+    - self
+    - 'node: BaseTag'
+    - '->: bool'
     Message:
     - self
     - 'node: BaseTag'
