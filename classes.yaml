@@ -83,6 +83,9 @@ BaseObject(BaseList2D):
     GetPred:
     - self
     - '->: Optional[BaseObject] = ...'
+    GetTags:
+    - self
+    - '->: List[BaseTag]'
     GetUp:
     - self
     - '->: Optional[BaseObject] = ...'

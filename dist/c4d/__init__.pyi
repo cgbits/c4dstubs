@@ -6469,7 +6469,7 @@ class BaseObject(BaseList2D):
         """
         ...
     
-    def GetTags(self) -> None:
+    def GetTags(self) -> List[BaseTag]:
         """    
         Returns all tags in a list.
         
