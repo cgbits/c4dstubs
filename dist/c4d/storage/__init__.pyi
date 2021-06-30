@@ -1142,7 +1142,7 @@ def LoadDialog(type: int, title: str, flags: int, force_suffix: str, def_path: s
     """
     ...
 
-def SaveDialog(type: int, title: str, force_suffix: str, def_path: str, def_file: str) -> str:
+def SaveDialog(type: int, title: str = ..., force_suffix: str = ..., def_path: str = ..., def_file: str = ...) -> str:
     """    
     Open a save dialog. The look of this dialog depends on the operating system.
     
