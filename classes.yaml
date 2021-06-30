@@ -152,6 +152,14 @@ CAWeightMgr(object):
     - 'dataDictionary: Any'
     - 'stringId: int'
     - '->: bool'
+CAWeightTag(BaseTag):
+  attributes: []
+  functions:
+    GetJoint:
+    - self
+    - 'index: int'
+    - 'doc: BaseDocument'
+    - '->: CAJointObject'
 ColorSwatchData(object):
   attributes: []
   functions:
