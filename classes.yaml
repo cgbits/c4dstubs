@@ -13,6 +13,15 @@ BaseContainer(object):
     - self
     - 'n: Optional[Union[BaseContainer, int]] = ...'
     - '->: None'
+BaseDocument(BaseList2D):
+  attributes: []
+  functions:
+    AddUndo:
+    - self
+    - 'type: int'
+    - 'data: BaseList2D'
+    - 'allowFromThread: bool = ...'
+    - '->: bool'
 BaseDraw(BaseView):
   attributes: []
   functions:

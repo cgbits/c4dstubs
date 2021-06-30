@@ -730,7 +730,7 @@ class BaseDocument(BaseList2D):
         """
         ...
     
-    def AddUndo(self, type: int, data: BaseList2D, allowFromThread: bool) -> bool:
+    def AddUndo(self, type: int, data: BaseList2D, allowFromThread: bool = ...) -> bool:
         """    
         Adds an undo *type* to the list of undo operations started with :meth:`StartUndo`.
         
