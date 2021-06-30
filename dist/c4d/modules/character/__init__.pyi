@@ -120,7 +120,7 @@ class CAWeightTag(BaseTag):
         """
         ...
     
-    def GetWeightMap(self, index: int, cnt: int, includeEffectors: bool) -> List[float]:
+    def GetWeightMap(self, index: int, cnt: int, includeEffectors: bool = ...) -> List[float]:
         """    
         Returns all the weights.
         

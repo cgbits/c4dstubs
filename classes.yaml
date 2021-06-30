@@ -160,6 +160,12 @@ CAWeightTag(BaseTag):
     - 'index: int'
     - 'doc: Optional[BaseDocument] = ...'
     - '->: CAJointObject'
+    GetWeightMap:
+    - self
+    - 'index: int'
+    - 'cnt: int'
+    - 'includeEffectors: bool = ...'
+    - '->: List[float]'
 ColorSwatchData(object):
   attributes: []
   functions:
