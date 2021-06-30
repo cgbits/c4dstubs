@@ -16,7 +16,7 @@ class CAWeightTag(BaseTag):
         """
         ...
     
-    def GetJoint(self, index: int, doc: BaseDocument) -> CAJointObject:
+    def GetJoint(self, index: int, doc: Optional[BaseDocument] = ...) -> CAJointObject:
         """    
         Get joint object at *index*.
         

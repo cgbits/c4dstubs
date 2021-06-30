@@ -158,7 +158,7 @@ CAWeightTag(BaseTag):
     GetJoint:
     - self
     - 'index: int'
-    - 'doc: BaseDocument'
+    - 'doc: Optional[BaseDocument] = ...'
     - '->: CAJointObject'
 ColorSwatchData(object):
   attributes: []
