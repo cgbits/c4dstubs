@@ -331,6 +331,14 @@ MoData(object):
     GetFalloffs:
     - self
     - '->: List[float]'
+Neighbor(object):
+  attributes: []
+  functions:
+    Init:
+    - self
+    - 'op: PolygonObject'
+    - 'bs: Optional[BaseSelect] = ...'
+    - '->: None'
 NodeData(BaseData):
   attributes: []
   functions:
