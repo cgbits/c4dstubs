@@ -319,6 +319,13 @@ GvNodeMaster(BaseList2D):
     - 'x: Optional[int] = ...'
     - 'y: Optional[int] = ...'
     - '->: GvNode'
+InExcludeData(CustomDataType):
+  attributes: []
+  functions:
+    __init__:
+    - self
+    - 'v: Optional[InExcludeData] = ...'
+    - '->: None'
 InstanceObject(BaseObject):
   attributes: []
   functions:
