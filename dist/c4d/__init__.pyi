@@ -13718,7 +13718,7 @@ class LayerSet(CustomDataType):
     
 
 class InExcludeData(CustomDataType):
-    def __init__(self, v: InExcludeData) -> None:
+    def __init__(self, v: Optional[InExcludeData] = ...) -> None:
         """    
         :type v: c4d.InExcludeData
         :param v: Copy constructor.

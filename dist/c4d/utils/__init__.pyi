@@ -107,7 +107,7 @@ class Neighbor(object):
         """
         ...
     
-    def Init(self, op: PolygonObject, bs: BaseSelect) -> None:
+    def Init(self, op: PolygonObject, bs: Optional[BaseSelect] = ...) -> None:
         """    
         Initialise the internal polygon information.
         

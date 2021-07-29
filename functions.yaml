@@ -106,6 +106,13 @@ RegisterTagPlugin:
 - 'disklevel: Optional[int] = ...'
 - 'res: Optional[GeResource] = ...'
 - '->: None'
+SaveDialog:
+- 'type: int'
+- 'title: str = ...'
+- 'force_suffix: str = ...'
+- 'def_path: str = ...'
+- 'def_file: str = ...'
+- '->: str'
 SendVolumeCommand:
 - 'command: int'
 - 'list: Any'

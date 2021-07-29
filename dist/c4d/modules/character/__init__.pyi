@@ -16,7 +16,7 @@ class CAWeightTag(BaseTag):
         """
         ...
     
-    def GetJoint(self, index: int, doc: BaseDocument) -> None:
+    def GetJoint(self, index: int, doc: Optional[BaseDocument] = ...) -> CAJointObject:
         """    
         Get joint object at *index*.
         
@@ -120,7 +120,7 @@ class CAWeightTag(BaseTag):
         """
         ...
     
-    def GetWeightMap(self, index: int, cnt: int, includeEffectors: bool) -> List[float]:
+    def GetWeightMap(self, index: int, cnt: int, includeEffectors: bool = ...) -> List[float]:
         """    
         Returns all the weights.
         
