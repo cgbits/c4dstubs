@@ -2674,6 +2674,18 @@ class ObjectData(NodeData):
         """
         ...
     
+    def GetDDescription(self, node: BaseObject, description: Description, flags: int) -> Union[bool, Tuple[bool, int]]:
+        ...
+    
+    def GetDEnabling(self, node: BaseObject, id: DescID, t_data: Any, flags: int, itemdesc: BaseContainer) -> bool:
+        ...
+    
+    def Init(self, node: BaseObject) -> bool:
+        ...
+    
+    def Message(self, node: BaseObject, type: int, data: Any) -> bool:
+        ...
+    
 
 class PreferenceData(NodeData):
     def InitPreferenceValue(self, id: int, data: Any, desc: Description, descid: DescID, bc: BaseContainer) -> None:

@@ -401,11 +401,35 @@ ObjectData(NodeData):
     - 'lod: int'
     - 'bt: BaseThread'
     - '->: Optional[SplineObject] = ...'
+    GetDDescription:
+    - self
+    - 'node: BaseObject'
+    - 'description: Description'
+    - 'flags: int'
+    - '->: Union[bool, Tuple[bool, int]]'
+    GetDEnabling:
+    - self
+    - 'node: BaseObject'
+    - 'id: DescID'
+    - 't_data: Any'
+    - 'flags: int'
+    - 'itemdesc: BaseContainer'
+    - '->: bool'
     GetVirtualObjects:
     - self
     - 'op: BaseObject'
     - 'hh: Any'
     - '->: BaseObject'
+    Init:
+    - self
+    - 'node: BaseObject'
+    - '->: bool'
+    Message:
+    - self
+    - 'node: BaseObject'
+    - 'type: int'
+    - 'data: Any'
+    - '->: bool'
 PointObject(BaseObject):
   attributes: []
   functions:
@@ -455,7 +479,7 @@ TP_MasterSystem(BaseList2D):
     - 'subgroups: bool'
     - 'hh: Any'
     - '->: BaseObject'
-TagData(c4d.plugins.NodeData):
+TagData(NodeData):
   attributes: []
   functions:
     GetDDescription:
