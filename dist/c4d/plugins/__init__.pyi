@@ -3502,7 +3502,7 @@ def RegisterBitmapLoaderPlugin(id: int, str: str, info: int, dat: BitmapLoaderDa
     """
     ...
 
-def RegisterTagPlugin(id: int, str: str, info: int, g: Any, description: str, icon: Union[None, BaseBitmap], disklevel: Optional[int] = ..., res: Optional[GeResource] = ...) -> None:
+def RegisterTagPlugin(id: int, str: str, info: int, g: Any, description: str, icon: Union[None, BaseBitmap], disklevel: Optional[int] = ..., res: Optional[GeResource] = ...) -> bool:
     """    
     Registers a TagData plugin:
     
@@ -3624,7 +3624,7 @@ def RegisterShaderPlugin(id: int, str: str, info: int, g: Any, description: str,
     """
     ...
 
-def RegisterObjectPlugin(id: int, str: str, g: Any, description: str, info: int, icon: Union[None, BaseBitmap], disklevel: int, res: Optional[GeResource] = ..., groupname: Optional[str] = ..., group: Optional[int] = ...) -> bool:
+def RegisterObjectPlugin(id: int, str: str, g: Any, description: str, info: int, icon: Union[None, BaseBitmap], disklevel: Optional[int] = ..., res: Optional[GeResource] = ..., groupname: Optional[str] = ..., group: Optional[int] = ...) -> bool:
     """    
     Registers an :class:`ObjectData <c4d.plugins.ObjectData>` plugin.
     

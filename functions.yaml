@@ -96,6 +96,18 @@ RangeMap:
 - 'clampval: bool'
 - 'curve: Optional[SplineData] = ...'
 - '->: float'
+RegisterObjectPlugin:
+- 'id: int'
+- 'str: str'
+- 'g: Any'
+- 'description: str'
+- 'info: int'
+- 'icon: Union[None, BaseBitmap]'
+- 'disklevel: Optional[int] = ...'
+- 'res: Optional[GeResource] = ...'
+- 'groupname: Optional[str] = ...'
+- 'group: Optional[int] = ...'
+- '->: bool'
 RegisterTagPlugin:
 - 'id: int'
 - 'str: str'
@@ -105,7 +117,7 @@ RegisterTagPlugin:
 - 'icon: Union[None, BaseBitmap]'
 - 'disklevel: Optional[int] = ...'
 - 'res: Optional[GeResource] = ...'
-- '->: None'
+- '->: bool'
 SaveDialog:
 - 'type: int'
 - 'title: str = ...'
