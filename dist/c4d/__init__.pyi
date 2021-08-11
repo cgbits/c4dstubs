@@ -4,6 +4,7 @@ from typing import List, Dict, Tuple, Union, Optional, Callable, Any, Iterable
 from c4d.documents import BaseDocument, LayerObject, RenderData
 from c4d.storage import HyperFile, ByteSeq
 from c4d.bitmaps import BaseBitmap, GeClipMap
+from uuid import UUID
 from c4d.utils import Neighbor
 from c4d.modules.render import ChannelData, InitRenderStruct
 from c4d.plugins import BaseDrawHelp
@@ -3072,7 +3073,7 @@ class BaseContainer(object):
         """
         ...
     
-    def GetUuid(self, id: int, preset: Any) -> None:
+    def GetUuid(self, id: int, preset: Any) -> UUID:
         """    
         Returns a uuid value with the specified ID, or *preset* if it doesn't exist.
         
@@ -3131,7 +3132,7 @@ class BaseContainer(object):
         """
         ...
     
-    def GetLink(self, id: int, doc: BaseDocument, isinstanceof: int) -> BaseList2D:
+    def GetLink(self, id: int, doc: Optional[BaseDocument] = ..., isinstanceof: Optional[int] = ...) -> BaseList2D:
         """    
         Returns a linked object, evaluated in the attached document.
         
@@ -3152,7 +3153,7 @@ class BaseContainer(object):
         """
         ...
     
-    def GetObjectLink(self, id: int, doc: BaseDocument) -> BaseObject:
+    def GetObjectLink(self, id: int, doc: Optional[BaseDocument] = ...) -> BaseObject:
         """    
         Returns a linked base object, evaluated in the attached document.
         

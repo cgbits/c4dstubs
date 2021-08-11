@@ -9,6 +9,22 @@ BaseBitmap(object):
 BaseContainer(object):
   attributes: []
   functions:
+    GetLink:
+    - self
+    - 'id: int'
+    - 'doc: Optional[BaseDocument] = ...'
+    - 'isinstanceof: Optional[int] = ...'
+    - '->: BaseList2D'
+    GetObjectLink:
+    - self
+    - 'id: int'
+    - 'doc: Optional[BaseDocument] = ...'
+    - '->: BaseObject'
+    GetUuid:
+    - self
+    - 'id: int'
+    - 'preset: Any'
+    - '->: UUID'
     __init__:
     - self
     - 'n: Optional[Union[BaseContainer, int]] = ...'
