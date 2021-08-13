@@ -8241,7 +8241,7 @@ class PolygonObject(PointObject):
         """
         ...
     
-    def GetAllPolygons(self) -> None:
+    def GetAllPolygons(self) -> List[CPolygon]:
         """    
         Returns all polygons.
         

@@ -459,6 +459,9 @@ PolygonObject(PointObject):
     CreatePhongNormals:
     - self
     - '->: List[Vector]'
+    GetAllPolygons:
+    - self
+    - '->: List[CPolygon]'
     GetNGonTranslationMap:
     - self
     - 'ngoncnt: int'
