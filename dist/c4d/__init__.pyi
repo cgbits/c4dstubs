@@ -684,6 +684,11 @@ class BaseTime(object):
     
 
 class CPolygon(object):
+    a: int
+    b: int
+    c: int
+    d: int
+
     def __init__(self, t_a: int, t_b: int, t_c: int, t_d: Optional[int] = ...) -> None:
         """    
         :type t_a: int

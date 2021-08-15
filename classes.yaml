@@ -191,6 +191,13 @@ CAWeightTag(BaseTag):
     - 'cnt: int'
     - 'includeEffectors: bool = ...'
     - '->: List[float]'
+CPolygon(objects):
+  attributes:
+  - 'a: int'
+  - 'b: int'
+  - 'c: int'
+  - 'd: int'
+  functions: {}
 ColorSwatchData(object):
   attributes: []
   functions:
