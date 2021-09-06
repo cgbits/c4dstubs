@@ -87,6 +87,11 @@ BaseObject(BaseList2D):
     GetChildren:
     - self
     - '->: List[BaseObject]'
+    GetClone:
+    - self
+    - 'flags: Optional[int] = ...'
+    - 'trn: Optional[AliasTrans] = ...'
+    - '->: BaseObject'
     GetDown:
     - self
     - '->: Optional[BaseObject] = ...'

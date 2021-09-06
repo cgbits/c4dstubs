@@ -7229,6 +7229,9 @@ class BaseObject(BaseList2D):
     def GetUp(self) -> Optional[BaseObject]:
         ...
     
+    def GetClone(self, flags: Optional[int] = ..., trn: Optional[AliasTrans] = ...) -> BaseObject:
+        ...
+    
 
 class CameraObject(BaseObject):
     def __init__(self) -> None:
