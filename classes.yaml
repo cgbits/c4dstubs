@@ -38,6 +38,9 @@ BaseDocument(BaseList2D):
     - 'data: BaseList2D'
     - 'allowFromThread: bool = ...'
     - '->: bool'
+    GetLayerObjectRoot:
+    - self
+    - '->: LayerObject'
 BaseDraw(BaseView):
   attributes: []
   functions:

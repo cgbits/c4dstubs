@@ -7214,6 +7214,9 @@ class BaseObject(BaseList2D):
     def GetChildren(self) -> List[BaseObject]:
         ...
     
+    def GetClone(self, flags: Optional[int] = ..., trn: Optional[AliasTrans] = ...) -> BaseObject:
+        ...
+    
     def GetDown(self) -> Optional[BaseObject]:
         ...
     
@@ -7227,9 +7230,6 @@ class BaseObject(BaseList2D):
         ...
     
     def GetUp(self) -> Optional[BaseObject]:
-        ...
-    
-    def GetClone(self, flags: Optional[int] = ..., trn: Optional[AliasTrans] = ...) -> BaseObject:
         ...
     
 

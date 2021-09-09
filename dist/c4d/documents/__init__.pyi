@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List, Dict, Tuple, Union, Optional, Callable, Any, Iterable
 
-from c4d import BaseList2D, BaseContainer, BaseDraw, GeListNode, DescID, BaseTime, BaseObject, BaseTag, BaseMaterial, C4DAtom, CKey
+from c4d import BaseList2D, BaseContainer, BaseDraw, DescID, BaseTime, BaseObject, BaseTag, BaseMaterial, C4DAtom, CKey
 from c4d.modules.net import RenderJob
 from uuid import UUID
 from c4d.bitmaps import BaseBitmap
@@ -517,7 +517,7 @@ class BaseDocument(BaseList2D):
         """
         ...
     
-    def GetLayerObjectRoot(self) -> GeListNode:
+    def GetLayerObjectRoot(self) -> LayerObject:
         """    
         Returns the list of layers of the document.
         
