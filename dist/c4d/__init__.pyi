@@ -7956,7 +7956,7 @@ class PointObject(BaseObject):
         """
         ...
     
-    def GetAllPoints(self) -> None:
+    def GetAllPoints(self) -> List[Vector]:
         """    
         Return all point positions.
         
@@ -7967,7 +7967,7 @@ class PointObject(BaseObject):
         """
         ...
     
-    def SetAllPoints(self, p: Any) -> None:
+    def SetAllPoints(self, p: List[Vector]) -> None:
         """    
         | Set all points of the point object.
         | The length of the passed list object must be equal the count of points.

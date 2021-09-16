@@ -468,6 +468,13 @@ PointObject(BaseObject):
     - self
     - 'modifier: BaseObject'
     - '->: List[float]'
+    GetAllPoints:
+    - self
+    - '->: List[Vector]'
+    SetAllPoints:
+    - self
+    - 'p: List[Vector]'
+    - '->: None'
 PolygonObject(PointObject):
   attributes: []
   functions:
