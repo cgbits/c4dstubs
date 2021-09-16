@@ -506,6 +506,19 @@ SplineData(CustomDataType):
     - self
     - 'v: Optional[SplineData] = ...'
     - '->: None'
+SplineObject(PointObject):
+  attributes: []
+  functions:
+    GetTangent:
+    - self
+    - 'id: int'
+    - '->: Dict[str, Vector]'
+    SetTangent:
+    - self
+    - 'id: int'
+    - 'vl: Vector'
+    - 'vr: Vector'
+    - '->: None'
 TP_MasterSystem(BaseList2D):
   attributes: []
   functions:

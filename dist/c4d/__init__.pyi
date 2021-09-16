@@ -8640,7 +8640,7 @@ class SplineObject(PointObject):
         """
         ...
     
-    def GetTangent(self, id: int) -> None:
+    def GetTangent(self, id: int) -> Dict[str, Vector]:
         """    
         Return a tangent.
         
