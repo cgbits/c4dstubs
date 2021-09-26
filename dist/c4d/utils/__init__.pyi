@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import List, Dict, Tuple, Union, Optional, Callable, Any, Iterable
 
-from c4d import PolygonObject, Vector, BaseSelect, BaseObject, Matrix, LineObject, BaseList2D, SplineObject, BaseDraw, BaseContainer, PointObject, UVWTag, TextureTag, BaseView, SplineData, Quaternion, UnitScaleData
+from c4d import PolygonObject, Vector, BaseSelect, CPolygon, BaseObject, Matrix, LineObject, BaseList2D, SplineObject, BaseDraw, BaseContainer, PointObject, UVWTag, TextureTag, BaseView, SplineData, Quaternion, UnitScaleData
 from c4d.gui import EditorWindow
 from c4d.documents import BaseDocument
 from c4d.threading import BaseThread
@@ -153,7 +153,7 @@ class Neighbor(object):
         """
         ...
     
-    def GetPointPolys(self, pnt: int) -> List[Any]:
+    def GetPointPolys(self, pnt: int) -> List[CPolygon]:
         """    
         .. image:: /_imgs/modules/utils/neighbor_pointpolys.png
         :align: right

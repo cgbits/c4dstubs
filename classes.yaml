@@ -395,6 +395,10 @@ MoData(object):
 Neighbor(object):
   attributes: []
   functions:
+    GetPointPolys:
+    - self
+    - 'pnt: int'
+    - '->: List[CPolygon]'
     Init:
     - self
     - 'op: PolygonObject'
