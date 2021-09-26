@@ -398,7 +398,7 @@ Neighbor(object):
     GetPointPolys:
     - self
     - 'pnt: int'
-    - '->: List[CPolygon]'
+    - '->: List[int]'
     Init:
     - self
     - 'op: PolygonObject'
